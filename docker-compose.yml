@@ -14,7 +14,7 @@ services:
       timeout: 25s
       retries: 5
     networks:
-      emqx-bridge:
+      my-bridge-network:
         aliases:
           - node1.emqx.io
     ports:
@@ -35,7 +35,7 @@ services:
       - MQTT_BROKER_HOST=emqx
       - MQTT_BROKER_PORT=1883
     networks:
-      emqx-bridge:
+      my-bridge-network:
         aliases:
           - mqtt-publisher
   
@@ -47,11 +47,15 @@ services:
     environment:
       - MQTT_BROKER_HOST=emqx
       - MQTT_BROKER_PORT=1883
+      - EMQX_CLOUD_HOST=emqx-broker
+      - EMQX_CLOUD_PORT=1883
     networks:
-      emqx-bridge:
+      my-bridge-network:
         aliases:
           - mqtt-subscriber
 
+
 networks:
-  emqx-bridge:
+  my-bridge-network:
     driver: bridge
+    external: true

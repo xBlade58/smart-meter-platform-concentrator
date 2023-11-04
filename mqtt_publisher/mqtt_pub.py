@@ -39,12 +39,10 @@ def publish(client, input_file:str, interval:int, limit:int):
         for msg in ijson.items(file, 'item'):
             time.sleep(interval)
             print("Sending...")
+            print(f"type of msg is: {type(msg)}")
             result = client.publish(topic, str(msg))
-            print("Received status...")
             status = result[0]
-            if status == 0:
-                print(f'Send `{msg}` to topic `{topic}`')
-            else:
+            if status != 0:
                 print(f'Failed to send message to topic {topic}')
             msg_count += 1
             print(f"Nr. of sent messages: {msg_count}")
