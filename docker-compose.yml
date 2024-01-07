@@ -21,23 +21,22 @@ services:
       - 1883:1883
       - 8083:8083
       - 8084:8084
-      - 8883:8883
       - 18083:18083 
     # volumes:
     #   - $PWD/emqx1_data:/opt/emqx/data
 
-  mqtt-publisher:
-    build: mqtt_publisher
-    depends_on:
-      emqx:
-        condition: service_healthy
-    environment:
-      - MQTT_BROKER_HOST=emqx
-      - MQTT_BROKER_PORT=1883
-    networks:
-      my-bridge-network:
-        aliases:
-          - mqtt-publisher
+  # mqtt-publisher:
+    # build: mqtt_publisher
+    # depends_on:
+     #  emqx:
+       #  condition: service_healthy
+    # environment:
+      # - MQTT_BROKER_HOST=emqx
+      # - MQTT_BROKER_PORT=1883
+    # networks:
+      # my-bridge-network:
+        # aliases:
+          # - mqtt-publisher
   
   mqtt-subscriber:
     build: mqtt_subscriber

@@ -3,5 +3,6 @@ WORKDIR /subscriber/
 COPY requirements.txt .
 COPY src/mqtt_sub.py src/
 COPY src/mqtt_connection.py src/
+COPY certs/ certs/
 RUN pip3 install -r requirements.txt
 CMD [ "python3", "src/mqtt_sub.py"]
