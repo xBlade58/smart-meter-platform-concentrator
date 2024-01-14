@@ -14,30 +14,29 @@ services:
       timeout: 25s
       retries: 5
     networks:
-      emqx-bridge:
+      my-bridge-network:
         aliases:
           - node1.emqx.io
     ports:
       - 1883:1883
       - 8083:8083
       - 8084:8084
-      - 8883:8883
       - 18083:18083 
     # volumes:
     #   - $PWD/emqx1_data:/opt/emqx/data
 
-  mqtt-publisher:
-    build: mqtt_publisher
-    depends_on:
-      emqx:
-        condition: service_healthy
-    environment:
-      - MQTT_BROKER_HOST=emqx
-      - MQTT_BROKER_PORT=1883
-    networks:
-      emqx-bridge:
-        aliases:
-          - mqtt-publisher
+  # mqtt-publisher:
+    # build: mqtt_publisher
+    # depends_on:
+     #  emqx:
+       #  condition: service_healthy
+    # environment:
+      # - MQTT_BROKER_HOST=emqx
+      # - MQTT_BROKER_PORT=1883
+    # networks:
+      # my-bridge-network:
+        # aliases:
+          # - mqtt-publisher
   
   mqtt-subscriber:
     build: mqtt_subscriber
@@ -47,11 +46,15 @@ services:
     environment:
       - MQTT_BROKER_HOST=emqx
       - MQTT_BROKER_PORT=1883
+      - EMQX_CLOUD_HOST=emqx-broker
+      - EMQX_CLOUD_PORT=1883
     networks:
-      emqx-bridge:
+      my-bridge-network:
         aliases:
           - mqtt-subscriber
 
+
 networks:
-  emqx-bridge:
+  my-bridge-network:
     driver: bridge
+    external: true
